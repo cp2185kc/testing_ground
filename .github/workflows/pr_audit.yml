@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Chekout Source Code
+      - name: Checkout Source Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
         
-      - name: Extra Commit & Author Host Footprint
-        run: |
+      - name: Extract Commit & Author Host Footprint
+			  run: |
           echo "=== PULL REQUEST AUDIT MANIFEST===" > pr_audit.txt
 					echo "" >> pr_audit.txt
 
@@ -50,10 +50,10 @@ jobs:
           echo "--- Runner Node Execution Environment ---" >> pr_audit.txt
           echo "Runner OS: ${{ runner.os }}" >> pr_audit.txt
           echo "Runner Architecture: ${{ runner.arch }}" >> pr_audit.txt
-          uname -a
+          uname -a >> pr_audit.txt
 					echo "" >> pr_audit.txt
           
-          echo "=== LOCAL GIT INFORMATION ==="
+          echo "=== LOCAL GIT INFORMATION ===" >> pr_audit.txt
           git log -1 --pretty=format:"Commit: %H%nAuthor: %an <%ae>%nDate: %ad%nPGP Key: %GK" >> pr_audit.txt
           echo "" >> pr_audit.txt
 
