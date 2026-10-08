@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
         
-      - name: Extract Commit & Author Host Footprint
+      - name: Extract Contribution & Execution Provenance
         run: |
           echo "=== PULL REQUEST AUDIT MANIFEST===" > pr_audit.txt
           echo "" >> pr_audit.txt
@@ -46,17 +46,26 @@ jobs:
           echo "PR Updated: ${{ github.event.pull_request.updated_at }}" >> pr_audit.txt
           echo "" >> pr_audit.txt
 
-          echo "--- Runner Node Execution Environment ---" >> pr_audit.txt
+          echo "--- CI Runner Node Execution Environment ---" >> pr_audit.txt
           echo "Runner OS: ${{ runner.os }}" >> pr_audit.txt
           echo "Runner Architecture: ${{ runner.arch }}" >> pr_audit.txt
           uname -a >> pr_audit.txt
           echo "" >> pr_audit.txt
           
-          echo "=== LOCAL GIT INFORMATION ===" >> pr_audit.txt
+          echo "=== COMMIT METADATA ===" >> pr_audit.txt
           git log -1 --pretty=format:"Commit: %H%nAuthor: %an <%ae>%nDate: %ad%nPGP Key: %GK" >> pr_audit.txt
           echo "" >> pr_audit.txt
+          git show -s --format="Commit: %H%nAuthor: %an <%ae>%nDate: %ad%nPGP Key: %GK" \
+            "${{ github.event.pull_request.head.sha }}" >> pr_audit.txt
+            
+          echo "--- Workflow Information ---" >> pr_audit.txt
+          echo "Repository: ${{ github.repository }}" >> pr_audit.txt
+          echo "Workflow: ${{ github.workflow }}" >> pr_audit.txt
+          echo "Run ID: ${{ github.run_id }}" >> pr_audit.txt
+          echo "Run Number: ${{ github.run_number }}" >> pr_audit.txt
+          echo "" >> pr_audit.txt
 
-      - name: Generate Signed Audit Artifact
+      - name: Generate Audit Inntegrity Hash
         run: |
           sha256sum pr_audit.txt > pr_audit.sha256
           mkdir -p ./audit_artifacts/
