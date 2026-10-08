@@ -61,13 +61,16 @@ jobs:
           Committer: %cn <%ce>
           Author Date: %aI
           Committer Date: %cI
+          " "${{ github.event.pull_request.head.sha }}" >> pr_audit.txt
+          echo "" >> pr_audit.txt
+          
+          echo "=== COMMIT Signature ===" >> pr_audit.txt
+          git show -s --format="
           Signature Status: %G?
           Signer: %GS
           Signing Key: %GK
           Key Fingerprint: %GF
           " "${{ github.event.pull_request.head.sha }}" >> pr_audit.txt
-
-          echo "" >> pr_audit.txt
             
           echo "--- Workflow Information ---" >> pr_audit.txt
           echo "Repository: ${{ github.repository }}" >> pr_audit.txt
