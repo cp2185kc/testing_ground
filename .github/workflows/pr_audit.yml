@@ -66,8 +66,6 @@ jobs:
           
           echo "=== COMMIT SIGNATURE ===" >> pr_audit.txt
 
-          echo "=== COMMIT SIGNATURE ===" >> pr_audit.txt
-
           if git cat-file commit "${{ github.event.pull_request.head.sha }}" | grep -q "^gpgsig "; then
             echo "Signature Present: YES" >> pr_audit.txt
 
@@ -91,8 +89,6 @@ jobs:
             echo "Signature Type: NONE" >> pr_audit.txt
             echo "Verification: NOT PERFORMED" >> pr_audit.txt
           fi
-
-          echo "" >> pr_audit.txt
           
           echo "--- Workflow Information ---" >> pr_audit.txt
           echo "Repository: ${{ github.repository }}" >> pr_audit.txt
