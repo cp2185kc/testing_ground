@@ -65,9 +65,11 @@ jobs:
           echo "" >> pr_audit.txt
           
           echo "=== COMMIT SIGNATURE ===" >> pr_audit.txt
-          git show --show-signature -s \
-            --format="Commit SHA: %H" \
-            "${{ github.event.pull_request.head.sha }}" >> pr_audit.txt
+          git show -s --format="Signature Status: %G?
+          Signer: %GS
+          Signing Key: %GK
+          Fingerprint: %GF
+          " "${{ github.event.pull_request.head.sha }}" >> pr_audit.txt
           echo "" >> pr_audit.txt
           
           echo "--- Workflow Information ---" >> pr_audit.txt
