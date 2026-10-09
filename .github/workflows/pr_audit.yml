@@ -76,7 +76,6 @@ jobs:
               echo "Signature Type: UNKNOWN" >> pr_audit.txt
             fi
 
-            echo "Verification: NOT PERFORMED" >> pr_audit.txt
             echo "" >> pr_audit.txt
 
             echo "--- Raw Signature ---" >> pr_audit.txt
@@ -96,7 +95,7 @@ jobs:
           echo "Run Number: ${{ github.run_number }}" >> pr_audit.txt
           echo "" >> pr_audit.txt
 
-      - name: Generate Audit Inntegrity Hash
+      - name: Generate Audit Integrity Hash
         run: |
           sha256sum pr_audit.txt > pr_audit.sha256
           mkdir -p ./audit_artifacts/
