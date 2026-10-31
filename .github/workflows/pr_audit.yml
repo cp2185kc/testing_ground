@@ -75,19 +75,20 @@ jobs:
             else
               echo "Signature Type: UNKNOWN" >> pr_audit.txt
             fi
-
-            echo "" >> pr_audit.txt
             
             if git cat-file commit "${{ github.event.pull_request.head.sha }}" | \
               sed -n '/^gpgsig /,/^$/p' | \
               grep -qE '^ -----END .*-----$'; then
               echo "Signature Extraction: COMPLETE" >> pr_audit.txt
+              echo "" >> pr_audit.txt
               echo "--- Raw Signature ---" >> pr_audit.txt
               
               git cat-file commit "${{ github.event.pull_request.head.sha }}" | \
                 sed -n '/^gpgsig /,/^ -----END .*-----$/p' >> pr_audit.txt
+              echo "" >> pr_audit.txt
             else
               echo "Signature Extraction: INCOMPLETE" >> pr_audit.txt
+              echo "" >> pr_audit.txt
             fi
 
           else
